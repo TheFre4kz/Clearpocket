@@ -31,9 +31,9 @@
 
     <!-- Monatswechsel: zurück · Monatsname · vor -->
     <div class="monatswahl">
-      <button type="button" class="pfeil" id="monat-zurueck" aria-label="Vorheriger Monat">‹</button>
-      <span id="monat-name"></span>
-      <button type="button" class="pfeil" id="monat-vor" aria-label="Nächster Monat">›</button>
+      <button type="button" class="pfeil" data-schritt="-1" aria-label="Vorheriger Monat">‹</button>
+      <span class="monat-name"></span>
+      <button type="button" class="pfeil" data-schritt="1" aria-label="Nächster Monat">›</button>
     </div>
 
     <!-- Die große Karte: Was bleibt übrig? -->
@@ -64,7 +64,20 @@
   <!-- ===== Bereich 2: Buchungen ===== -->
   <section id="bereich-buchungen" class="bereich" hidden>
     <h1>Buchungen</h1>
-    <p class="hinweis">Hier kannst du bald Buchungen erfassen und durchsehen. (Kommt in Schritt 2)</p>
+
+    <!-- Derselbe Monatswechsel wie in der Übersicht -->
+    <div class="monatswahl">
+      <button type="button" class="pfeil" data-schritt="-1" aria-label="Vorheriger Monat">‹</button>
+      <span class="monat-name"></span>
+      <button type="button" class="pfeil" data-schritt="1" aria-label="Nächster Monat">›</button>
+    </div>
+
+    <!-- Filter: nur Buchungen einer Kategorie zeigen -->
+    <select id="filter-kategorie" class="feld" aria-label="Nach Kategorie filtern"></select>
+
+    <!-- Hier schreibt app.js die Liste der Buchungen hinein -->
+    <div id="buchungsliste"></div>
+    <p class="hinweis" id="liste-leer" hidden></p>
   </section>
 
   <!-- ===== Bereich 3: Fixkosten ===== -->
@@ -78,6 +91,57 @@
     <h1>Einstellungen</h1>
     <p class="hinweis">Hier kommen bald Backup, Kategorien und mehr hin. (Kommt in Schritt 4)</p>
   </section>
+
+  <!-- ===== Der runde "+"-Knopf für eine neue Buchung ===== -->
+  <button type="button" id="plus-knopf" class="plus-knopf" aria-label="Neue Buchung">+</button>
+
+  <!-- ===== Formular für eine Buchung (neu oder bearbeiten) =====
+       <dialog> ist ein Fenster, das sich über die Seite legt. -->
+  <dialog id="buchung-dialog" class="dialog">
+    <form id="buchung-formular" novalidate>
+      <h2 id="formular-titel">Neue Buchung</h2>
+
+      <!-- Typ: drei Knöpfe nebeneinander, immer genau einer ist gewählt -->
+      <div class="typwahl" role="radiogroup" aria-label="Art der Buchung">
+        <label><input type="radio" name="typ" value="ausgabe" checked><span>Ausgabe</span></label>
+        <label><input type="radio" name="typ" value="einnahme"><span>Einnahme</span></label>
+        <label><input type="radio" name="typ" value="sparen"><span>Sparen</span></label>
+      </div>
+
+      <label class="feld-zeile">
+        <span>Betrag</span>
+        <!-- inputmode="decimal": das iPhone zeigt die Zahlentastatur mit Komma -->
+        <input type="text" id="eingabe-betrag" class="feld feld-betrag" inputmode="decimal" placeholder="0,00 €" autocomplete="off">
+      </label>
+      <p class="fehler" id="fehler-betrag" hidden>Bitte einen gültigen Betrag eingeben, z. B. 12,50</p>
+
+      <label class="feld-zeile">
+        <span>Datum</span>
+        <input type="date" id="eingabe-datum" class="feld">
+      </label>
+
+      <label class="feld-zeile">
+        <span>Kategorie</span>
+        <select id="eingabe-kategorie" class="feld"></select>
+      </label>
+
+      <label class="feld-zeile">
+        <span>Notiz</span>
+        <input type="text" id="eingabe-notiz" class="feld" placeholder="optional" maxlength="200">
+      </label>
+
+      <label class="haekchen">
+        <input type="checkbox" id="eingabe-sonder">
+        <span>Sonderposten <small>(einmalig, nicht regelmäßig)</small></span>
+      </label>
+
+      <div class="knopfreihe">
+        <button type="button" id="knopf-abbrechen" class="knopf knopf-leise">Abbrechen</button>
+        <button type="submit" class="knopf knopf-haupt">Speichern</button>
+      </div>
+      <button type="button" id="knopf-loeschen" class="knopf knopf-loeschen" hidden>Buchung löschen</button>
+    </form>
+  </dialog>
 
   <!-- ===== Leiste unten ===== -->
   <!-- Jeder Knopf führt zu einem Bereich. Die Symbole sind kleine Zeichnungen (SVG). -->

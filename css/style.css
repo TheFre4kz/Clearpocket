@@ -58,9 +58,9 @@ button {
 .bereich {
   max-width: 480px;
   margin: 0 auto;
-  /* Oben Platz für die Notch, unten Platz für die Leiste und den Home-Balken */
+  /* Oben Platz für die Notch, unten Platz für die Leiste, den "+"-Knopf und den Home-Balken */
   padding: calc(16px + env(safe-area-inset-top)) 16px
-           calc(var(--leiste-hoehe) + 24px + env(safe-area-inset-bottom));
+           calc(var(--leiste-hoehe) + 96px + env(safe-area-inset-bottom));
 }
 
 h1 {
@@ -138,8 +138,265 @@ h1 {
   overflow-wrap: anywhere;  /* sehr große Beträge brechen um statt überzustehen */
 }
 
-.plus  { color: var(--plus); }
-.minus { color: var(--minus); }
+.plus    { color: var(--plus); }
+.minus   { color: var(--minus); }
+.gespart { color: var(--akzent); }
+
+/* --- Eingabefelder und Auswahllisten --- */
+.feld {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--linie);
+  border-radius: 12px;
+  background: var(--flaeche);
+  color: var(--text);
+  /* Mindestens 16 px, sonst zoomt das iPhone beim Antippen hinein */
+  font: inherit;
+  font-size: 16px;
+}
+
+.feld:focus {
+  outline: 2px solid var(--akzent);
+  outline-offset: 1px;
+}
+
+#filter-kategorie {
+  margin-bottom: 8px;
+}
+
+/* --- Liste der Buchungen --- */
+.filter-summe {
+  margin: 8px 4px;
+  font-size: 14px;
+  color: var(--text-leise);
+}
+
+.tag-ueberschrift {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-leise);
+  margin: 16px 4px 6px;
+}
+
+.buchungsgruppe {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* Eine Buchung: die ganze Zeile ist antippbar */
+.buchung {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 10px 16px;
+  border: none;
+  border-top: 1px solid var(--linie);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.buchung:first-child {
+  border-top: none;
+}
+
+.buchung:active {
+  background: var(--hintergrund);
+}
+
+.buchung-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.buchung-text small {
+  color: var(--text-leise);
+  font-size: 13px;
+  /* Lange Notizen mit "…" abschneiden */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buchung-betrag {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Kleines Etikett "Sonder" */
+.marke {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--akzent);
+  color: var(--akzent-text);
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: 2px;
+}
+
+/* --- Der runde "+"-Knopf unten rechts --- */
+.plus-knopf {
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--leiste-hoehe) + 16px + env(safe-area-inset-bottom));
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: var(--akzent);
+  color: var(--akzent-text);
+  font-size: 34px;
+  line-height: 1;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+  cursor: pointer;
+}
+
+.plus-knopf[hidden] {
+  display: none;
+}
+
+/* --- Formular-Fenster --- */
+.dialog {
+  width: 100%;
+  max-width: 480px;
+  max-height: 100%;
+  margin: auto auto 0;      /* klebt unten am Bildschirm, wie bei iPhone-Apps */
+  padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  border: none;
+  border-radius: 20px 20px 0 0;
+  background: var(--hintergrund);
+  color: var(--text);
+}
+
+/* Der abgedunkelte Hintergrund hinter dem Fenster */
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.dialog h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+/* Typwahl: drei Knöpfe wie ein Schalter */
+.typwahl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background: var(--flaeche);
+}
+
+.typwahl input {
+  position: absolute;
+  opacity: 0;               /* den runden Punkt verstecken, der Text ist der Knopf */
+}
+
+.typwahl span {
+  display: block;
+  padding: 10px 0;
+  border-radius: 9px;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.typwahl input:checked + span {
+  background: var(--akzent);
+  color: var(--akzent-text);
+}
+
+.typwahl input:focus-visible + span {
+  outline: 2px solid var(--akzent);
+}
+
+.feld-zeile {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.feld-zeile > span {
+  display: block;
+  margin: 0 0 4px 4px;
+  font-size: 14px;
+  color: var(--text-leise);
+}
+
+.feld-betrag {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.fehler {
+  margin: -6px 4px 12px;
+  font-size: 14px;
+  color: var(--minus);
+}
+
+.haekchen {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-bottom: 16px;
+}
+
+.haekchen input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--akzent);
+}
+
+.haekchen small {
+  color: var(--text-leise);
+}
+
+/* --- Knöpfe --- */
+.knopfreihe {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.knopf {
+  min-height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.knopf-haupt {
+  background: var(--akzent);
+  color: var(--akzent-text);
+}
+
+.knopf-leise {
+  background: var(--flaeche);
+}
+
+.knopf-loeschen {
+  width: 100%;
+  margin-top: 12px;
+  background: none;
+  color: var(--minus);
+}
+
+.knopf-loeschen[hidden] {
+  display: none;
+}
 
 /* --- Leiste unten --- */
 .leiste {

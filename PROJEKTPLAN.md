@@ -267,7 +267,7 @@ So können wir jederzeit weitermachen, auch in einer neuen Sitzung.
 - [x] Rückfragen aus Abschnitt 4 beantwortet
 - [x] Datenmodell erklärt und abgestimmt (Abschnitt 5)
 - [x] Etappe 0 – Einrichtung & Git-Grundlagen *(Hallo-Welt-Seite live auf GitHub Pages)*
-- [ ] Etappe 1 – Das Fundament *(Schritt 1 Grundgerüst fertig; als Nächstes Schritt 2 Buchungen)*
+- [ ] Etappe 1 – Das Fundament *(Schritt 1 Grundgerüst und Schritt 2 Buchungen fertig; als Nächstes Schritt 3 Fixkosten)*
 - [ ] Etappe 2 – Rückblick & Einsparpotenzial
 - [ ] Etappe 3 – Vermögensübersicht
 - [ ] Etappe 4 – Prognose
