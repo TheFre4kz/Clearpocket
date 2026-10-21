@@ -83,7 +83,27 @@
   <!-- ===== Bereich 3: Fixkosten ===== -->
   <section id="bereich-fixkosten" class="bereich" hidden>
     <h1>Fixkosten</h1>
-    <p class="hinweis">Hier legst du bald Miete, Abos und Gehalt als feste Vorlagen an. (Kommt in Schritt 3)</p>
+
+    <!-- Zusammenfassung: alles auf einen Monat umgerechnet -->
+    <div class="kacheln">
+      <div class="karte">
+        <span class="karte-titel">Fest rein</span>
+        <span class="kachel-betrag plus" id="fix-einnahmen"></span>
+      </div>
+      <div class="karte">
+        <span class="karte-titel">Fest raus</span>
+        <span class="kachel-betrag minus" id="fix-ausgaben"></span>
+      </div>
+      <div class="karte">
+        <span class="karte-titel">Fest gespart</span>
+        <span class="kachel-betrag gespart" id="fix-sparen"></span>
+      </div>
+    </div>
+    <p class="kleingedrucktes">pro Monat – jährliche und vierteljährliche Beträge sind umgerechnet</p>
+
+    <!-- Hier schreibt app.js die Liste der Vorlagen hinein -->
+    <div id="fixkostenliste"></div>
+    <p class="hinweis" id="fix-leer">Noch keine Fixkosten. Tippe unten rechts auf „+“, um z. B. Miete, Gehalt oder ein Abo anzulegen.</p>
   </section>
 
   <!-- ===== Bereich 4: Einstellungen ===== -->
@@ -148,6 +168,77 @@
     </form>
   </dialog>
 
+  <!-- ===== Formular für eine Fixkosten-Vorlage ===== -->
+  <dialog id="fix-dialog" class="dialog">
+    <form id="fix-formular" novalidate>
+      <h2 id="fix-titel">Neue Fixkosten</h2>
+
+      <div class="typwahl" role="radiogroup" aria-label="Art">
+        <label><input type="radio" name="fix-typ" value="ausgabe" checked><span>Ausgabe</span></label>
+        <label><input type="radio" name="fix-typ" value="einnahme"><span>Einnahme</span></label>
+        <label><input type="radio" name="fix-typ" value="sparen"><span>Sparen</span></label>
+      </div>
+
+      <label class="feld-zeile">
+        <span>Name</span>
+        <input type="text" id="fix-name" class="feld" placeholder="z. B. Miete, Netflix, Gehalt" maxlength="60">
+      </label>
+      <p class="fehler" id="fix-fehler-name" hidden>Bitte einen Namen eingeben.</p>
+
+      <label class="feld-zeile">
+        <span>Betrag</span>
+        <input type="text" id="fix-betrag" class="feld feld-betrag" inputmode="decimal" placeholder="0,00 €" autocomplete="off">
+      </label>
+      <p class="fehler" id="fix-fehler-betrag" hidden>Bitte einen gültigen Betrag eingeben, z. B. 12,50</p>
+
+      <label class="feld-zeile">
+        <span>Kategorie</span>
+        <select id="fix-kategorie" class="feld"></select>
+      </label>
+
+      <!-- Zwei Felder nebeneinander -->
+      <div class="zwei-spalten">
+        <label class="feld-zeile">
+          <span>Rhythmus</span>
+          <select id="fix-rhythmus" class="feld">
+            <option value="monatlich">monatlich</option>
+            <option value="vierteljaehrlich">vierteljährlich</option>
+            <option value="halbjaehrlich">halbjährlich</option>
+            <option value="jaehrlich">jährlich</option>
+          </select>
+        </label>
+        <label class="feld-zeile">
+          <span>Fällig am Tag</span>
+          <input type="number" id="fix-tag" class="feld" min="1" max="31" inputmode="numeric">
+        </label>
+      </div>
+      <p class="fehler" id="fix-fehler-tag" hidden>Bitte einen Tag zwischen 1 und 31 eingeben.</p>
+
+      <div class="zwei-spalten">
+        <label class="feld-zeile">
+          <span>Erstmals im</span>
+          <input type="month" id="fix-start" class="feld">
+        </label>
+        <label class="feld-zeile">
+          <span>Endet nach <small>(optional)</small></span>
+          <input type="month" id="fix-ende" class="feld">
+        </label>
+      </div>
+      <p class="fehler" id="fix-fehler-monat" hidden>Das Ende darf nicht vor dem Start liegen.</p>
+
+      <label class="haekchen">
+        <input type="checkbox" id="fix-aktiv" checked>
+        <span>Aktiv <small>(ausschalten = pausieren)</small></span>
+      </label>
+
+      <div class="knopfreihe">
+        <button type="button" id="fix-abbrechen" class="knopf knopf-leise">Abbrechen</button>
+        <button type="submit" class="knopf knopf-haupt">Speichern</button>
+      </div>
+      <button type="button" id="fix-loeschen" class="knopf knopf-loeschen" hidden>Vorlage löschen</button>
+    </form>
+  </dialog>
+
   <!-- ===== Leiste unten ===== -->
   <!-- Jeder Knopf führt zu einem Bereich. Die Symbole sind kleine Zeichnungen (SVG). -->
   <nav class="leiste">
@@ -170,9 +261,10 @@
   </nav>
 
   <!-- Unsere Programm-Dateien. Die Reihenfolge ist wichtig:
-       app.js benutzt Funktionen aus den beiden Dateien davor. -->
+       app.js benutzt Funktionen aus den Dateien davor. -->
   <script src="js/speicher.js"></script>
   <script src="js/buchungen.js"></script>
+  <script src="js/fixkosten.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

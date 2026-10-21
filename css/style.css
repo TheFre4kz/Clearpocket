@@ -407,6 +407,39 @@ h1 {
   display: none;
 }
 
+/* --- Fixkosten --- */
+.kleingedrucktes {
+  margin: 6px 4px 0;
+  font-size: 12px;
+  color: var(--text-leise);
+}
+
+/* Zwei Eingabefelder nebeneinander */
+.zwei-spalten {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* Spalten und Felder dürfen schmaler werden als ihr Inhalt, statt überzustehen
+   (Monatsfelder sind von sich aus recht breit) */
+.zwei-spalten > *,
+.zwei-spalten .feld {
+  min-width: 0;
+}
+
+/* Zurückhaltendes Etikett, z. B. "Fix" oder "pausiert" */
+.marke-leise {
+  background: var(--linie);
+  color: var(--text-leise);
+}
+
+/* Pausierte Vorlagen blasser darstellen */
+.pausiert .buchung-text > span:first-child,
+.pausiert .buchung-betrag {
+  opacity: 0.5;
+}
+
 /* --- Leiste unten --- */
 .leiste {
   position: fixed;

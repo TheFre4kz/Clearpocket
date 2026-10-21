@@ -87,8 +87,9 @@ Bitte erkläre mir dieses Modell kurz, bevor du es umsetzt, und schlage Verbesse
   - `sonder` (ja/nein) → markiert Sondereinnahmen und Sonderausgaben
   - `fixkostenId` (optional) → falls die Buchung aus einer Fixkosten-Vorlage stammt
 - **Fixkosten-Vorlage**
-  - `id`, `name`, `betragCent`, `kategorie`, `rhythmus` (monatlich | vierteljährlich | jährlich), `faelligAm` (Tag), `aktiv`, `startdatum`, `enddatum` (optional)
-  - Gilt auch für **feste Einnahmen** (z. B. Gehalt) über ein Feld `typ`.
+  - `id`, `name`, `betragCent`, `kategorieId`, `rhythmus` (monatlich | vierteljährlich | halbjährlich | jährlich), `faelligAm` (Tag), `aktiv`, `startMonat`, `endMonat` (optional, beide als „JJJJ-MM“)
+  - Gilt auch für **feste Einnahmen** (z. B. Gehalt) und **Sparpläne** über ein Feld `typ`.
+  - `gebuchtBis` („JJJJ-MM“): bis wohin schon automatisch gebucht wurde. Verhindert, dass eine von Hand gelöschte Buchung wiederkommt und dass nach einer Pause nachgebucht wird.
 - **Konto / Geldort** (ab Etappe 3)
   - `id`, `name` (Girokonto, Tagesgeld, Depot, Bargeld …), `art`, `stand` mit Datum (Verlauf)
 - **Anlage / Asset** (ab Etappe 3)
@@ -271,7 +272,7 @@ So können wir jederzeit weitermachen, auch in einer neuen Sitzung.
 - [x] Rückfragen aus Abschnitt 4 beantwortet
 - [x] Datenmodell erklärt und abgestimmt (Abschnitt 5)
 - [x] Etappe 0 – Einrichtung & Git-Grundlagen *(Hallo-Welt-Seite live auf GitHub Pages)*
-- [ ] Etappe 1 – Das Fundament *(Schritt 1 Grundgerüst und Schritt 2 Buchungen fertig; als Nächstes Schritt 3 Fixkosten)*
+- [ ] Etappe 1 – Das Fundament *(Schritte 1–3 fertig: Grundgerüst, Buchungen, Fixkosten – Version 0.4.0; als Nächstes Schritt 4 Backup)*
 - [ ] Etappe 2 – Rückblick & Einsparpotenzial
 - [ ] Etappe 3 – Vermögensübersicht
 - [ ] Etappe 4 – Prognose

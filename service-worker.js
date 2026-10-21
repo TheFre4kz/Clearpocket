@@ -24,6 +24,7 @@ const APP_DATEIEN = [
   'css/style.css',
   'js/speicher.js',
   'js/buchungen.js',
+  'js/fixkosten.js',
   'js/app.js'
 ];
 
