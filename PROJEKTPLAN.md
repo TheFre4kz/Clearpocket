@@ -91,6 +91,9 @@ Bitte erkläre mir dieses Modell kurz, bevor du es umsetzt, und schlage Verbesse
   - Gilt auch für **feste Einnahmen** (z. B. Gehalt) über ein Feld `typ`.
 - **Konto / Geldort** (ab Etappe 3)
   - `id`, `name` (Girokonto, Tagesgeld, Depot, Bargeld …), `art`, `stand` mit Datum (Verlauf)
+- **Anlage / Asset** (ab Etappe 3)
+  - `id`, `name` (z. B. „MSCI World ETF"), `anlageklasse`, `kontoId`, optional `isin`, `stueck`, `wertVerlauf` (Datum + Wert in Cent)
+  - Sparen-Buchungen bekommen dann ein Feld `anlageId` → so ist klar, in welches Asset das Geld geflossen ist.
 - **Einstellungen**
   - Währung, Monatsbeginn, Kategorien, Design
 
@@ -129,17 +132,32 @@ Nach **jeder Etappe**:
 - **Durchschnitte:** pro Kategorie (z. B. letzte 3, 6, 12 Monate – wählbar).
 - **Sparquote** pro Monat und im Schnitt.
 - **Diagramme:** Kreisdiagramm „Wohin geht mein Geld", Balkendiagramm Monatsverlauf.
+- **Sankey-Diagramm „Geldfluss"** (Flussdiagramm mit unterschiedlich breiten Bändern): links die Einnahmen-Quellen, in der Mitte „Budget", rechts die Ausgaben-Kategorien, Sparen/Anlagen und „übrig". Die Breite eines Bandes zeigt, wie viel Geld fließt. Wählbar für einen Monat oder einen Zeitraum.
+  - Technik: Chart.js kann das nicht von allein; dafür kommt die Erweiterung **chartjs-chart-sankey** dazu, ebenfalls als lokale Datei in `lib/`.
+  - Ab Etappe 3: das Sparen-Band teilt sich weiter auf in die einzelnen Anlagen (z. B. Tagesgeld, ETF, Aktie X).
 - **Einsparpotenziale:** Hinweise wie „Essen gehen liegt diesen Monat 40 % über deinem Schnitt" oder „Deine Abos kosten zusammen X € im Jahr".
 - Optional: **Budget pro Kategorie** mit Fortschrittsbalken.
 - ❓ *Frag mich:* Welche Auswertungen sind mir am wichtigsten? Möchte ich Budgets?
 
-### Etappe 3 – Vermögensübersicht
+### Etappe 3 – Vermögensübersicht & Geldanlage
 - **Konten/Geldorte** anlegen (Girokonto, Tagesgeld, Depot, Bargeld, …).
 - Kontostände manuell aktualisieren, mit Verlauf.
-- Sparen-Buchungen einem Zielkonto zuordnen.
-- **Gesamtvermögen** + Diagramm der Entwicklung über die Zeit.
+- **Anlagen (Assets) erfassen** – also *worin* das Geld steckt, nicht nur *wo*:
+  - Anlageklassen, z. B. Tagesgeld/Festgeld · ETF/Fonds · Einzelaktien · Anleihen · Krypto · Edelmetalle · Immobilien · Altersvorsorge (Riester, bAV …) · Sonstiges
+  - Jede Anlage gehört zu einem Konto/Depot (z. B. „MSCI World ETF" im Depot bei Bank X).
+  - Optional pro Anlage: Stückzahl, Kaufkurs, ISIN/Kürzel.
+- **Sparen-Buchungen einer Anlage zuordnen:** „200 € → MSCI World ETF". So sehe ich, wie viel Geld in welches Asset geflossen ist – pro Monat, pro Jahr und insgesamt.
+- Auch **Entnahmen/Verkäufe** erfassen (Geld fließt aus einer Anlage zurück aufs Girokonto).
+- **Eingezahlt vs. aktueller Wert:** Den aktuellen Wert einer Anlage trage ich ab und zu von Hand ein; die App zeigt dann Gewinn/Verlust in € und %. (Keine automatischen Kurse aus dem Internet – siehe Datenschutz-Regeln.)
+- **Auswertungen:**
+  - Aufteilung des Vermögens nach Anlageklasse (Kreis-/Ringdiagramm)
+  - „Wohin ist mein Erspartes geflossen?" – Summe je Anlage über einen Zeitraum
+  - **Gesamtvermögen** + Diagramm der Entwicklung über die Zeit
+  - Sankey-Diagramm aus Etappe 2 bekommt die Aufteilung auf die einzelnen Anlagen
 - Optional: **Sparziele** (z. B. „Notgroschen 5.000 €") mit Fortschritt.
-- ❓ *Frag mich:* Welche Konten/Anlagen habe ich? Möchte ich Sparziele?
+- Optional: **Sparpläne** als Vorlage (wie Fixkosten), z. B. „monatlich 150 € in ETF X" – werden automatisch als Sparen-Buchung angelegt.
+- ❓ *Frag mich:* Welche Konten und Anlagen habe ich? Wie genau will ich erfassen – nur Beträge oder auch Stückzahl und Kurs? Möchte ich Sparziele und Sparpläne?
+- Hinweis in der App: Die Anzeige ist eine reine Übersicht, keine Anlageberatung.
 
 ### Etappe 4 – Prognose
 - Hochrechnung für die nächsten **3 / 6 / 12 Monate** auf Basis von Fixkosten und Durchschnittswerten.
@@ -238,6 +256,10 @@ So können wir jederzeit weitermachen, auch in einer neuen Sitzung.
 | App-Icon | **Weißes C auf Violett** |
 | Speicherort | `localStorage` (eine Datei-ähnliche Ablage im Browser) – einfach und reicht für viele tausend Buchungen |
 | Sparen-Kategorien | Vorläufig: Notgroschen · Tagesgeld · Depot/ETF · Altersvorsorge · Sonstiges (in Etappe 3 durch Konten ersetzt) |
+
+### Ergänzungen zum Plan (21.10.2026)
+- Etappe 2: **Sankey-Diagramm „Geldfluss"** aufgenommen.
+- Etappe 3: ausgebaut zu **Vermögensübersicht & Geldanlage** – Anlagen/Assets erfassen, Sparen-Buchungen einer Anlage zuordnen, Gewinn/Verlust, Aufteilung nach Anlageklasse, optional Sparpläne.
 
 **Teilschritte Etappe 1:** 1) Grundgerüst · 2) Buchungen · 3) Fixkosten · 4) Backup · 5) PWA (Icon, offline)
 
