@@ -229,11 +229,23 @@ So können wir jederzeit weitermachen, auch in einer neuen Sitzung.
 2. **Jeder Eintrag hat `geaendertAm`** (Zeitpunkt der letzten Änderung) – hilft bei Backups und späterer Synchronisierung.
 3. **Die gespeicherten Daten haben eine `datenVersion`.** Ändert sich das Modell, kann die App alte Daten automatisch umbauen.
 
+### Entscheidungen für Etappe 1 (21.10.2026)
+| Frage | Entscheidung |
+|---|---|
+| Eingabe | Runder **„+“-Button** unten rechts, öffnet ein Formular |
+| Fixkosten | Werden am Fälligkeitstag **automatisch gebucht**; einzelne Buchungen bleiben änderbar |
+| Navigation | **Leiste unten**: Übersicht · Buchungen · Fixkosten · Einstellungen |
+| App-Icon | **Weißes C auf Violett** |
+| Speicherort | `localStorage` (eine Datei-ähnliche Ablage im Browser) – einfach und reicht für viele tausend Buchungen |
+| Sparen-Kategorien | Vorläufig: Notgroschen · Tagesgeld · Depot/ETF · Altersvorsorge · Sonstiges (in Etappe 3 durch Konten ersetzt) |
+
+**Teilschritte Etappe 1:** 1) Grundgerüst · 2) Buchungen · 3) Fixkosten · 4) Backup · 5) PWA (Icon, offline)
+
 ### Stand
 - [x] Rückfragen aus Abschnitt 4 beantwortet
 - [x] Datenmodell erklärt und abgestimmt (Abschnitt 5)
-- [ ] Etappe 0 – Einrichtung & Git-Grundlagen *(in Arbeit: `.gitignore`, README und Hallo-Welt-Seite fertig; GitHub Desktop, erster Commit, GitHub Pages fehlen noch)*
-- [ ] Etappe 1 – Das Fundament
+- [x] Etappe 0 – Einrichtung & Git-Grundlagen *(Hallo-Welt-Seite live auf GitHub Pages)*
+- [ ] Etappe 1 – Das Fundament *(Schritt 1 Grundgerüst fertig; als Nächstes Schritt 2 Buchungen)*
 - [ ] Etappe 2 – Rückblick & Einsparpotenzial
 - [ ] Etappe 3 – Vermögensübersicht
 - [ ] Etappe 4 – Prognose
@@ -241,6 +253,7 @@ So können wir jederzeit weitermachen, auch in einer neuen Sitzung.
 ### Wo das Projekt liegt
 - Auf dem Rechner: `C:\Users\rehpe\Desktop\Finanzapp\Github\Clearpocket`
 - Auf GitHub: https://github.com/TheFre4kz/Clearpocket
+- Die App im Internet: https://thefre4kz.github.io/Clearpocket/
 
 ### Als Nächstes
-GitHub Desktop installieren, Repository `clearpocket` anlegen, ersten Commit machen und veröffentlichen. Danach GitHub Pages aktivieren und die App aufs iPhone holen.
+Etappe 1 – Das Fundament. Vorher fragen: Wie soll die Eingabe aussehen? Fixkosten automatisch buchen oder jeden Monat bestätigen?

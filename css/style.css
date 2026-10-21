@@ -8,10 +8,14 @@
 :root {
   --hintergrund: #f6f4fb;   /* sehr helles Violett-Grau */
   --flaeche: #ffffff;       /* Karten und Kästen */
+  --linie: #e6e2f0;         /* feine Trennlinien */
   --text: #1d1a26;          /* fast Schwarz */
   --text-leise: #6b6680;    /* graue Nebentexte */
   --akzent: #7c3aed;        /* unser Violett */
   --akzent-text: #ffffff;   /* Schrift auf Violett */
+  --plus: #15803d;          /* Grün für Einnahmen */
+  --minus: #c2410c;         /* Rot-Orange für Ausgaben */
+  --leiste-hoehe: 64px;     /* Höhe der Leiste unten (ohne Home-Balken) */
 }
 
 /* Wenn das iPhone auf "Dunkel" steht, gelten diese Farben */
@@ -19,10 +23,13 @@
   :root {
     --hintergrund: #16131f;
     --flaeche: #221e2e;
+    --linie: #332d44;
     --text: #f1eef8;
     --text-leise: #a49fb8;
     --akzent: #a78bfa;      /* helleres Violett, gut lesbar auf Dunkel */
     --akzent-text: #16131f;
+    --plus: #4ade80;
+    --minus: #fb923c;
   }
 }
 
@@ -38,54 +45,70 @@ body {
   /* Die Systemschrift des iPhones (San Francisco), auf Windows Segoe UI */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
+  /* Verhindert, dass iOS beim Tippen die Schrift von selbst vergrößert */
+  -webkit-text-size-adjust: 100%;
 }
 
-/* --- Startseite --- */
-.start {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  /* Abstand zum Rand, inklusive Platz für Notch und Home-Balken am iPhone */
-  padding: calc(24px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+button {
+  font: inherit;
+  color: inherit;
 }
 
-.logo {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  background: var(--akzent);
-  color: var(--akzent-text);
-  font-size: 44px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
+/* --- Ein Bereich (Übersicht, Buchungen, …) --- */
+.bereich {
+  max-width: 480px;
+  margin: 0 auto;
+  /* Oben Platz für die Notch, unten Platz für die Leiste und den Home-Balken */
+  padding: calc(16px + env(safe-area-inset-top)) 16px
+           calc(var(--leiste-hoehe) + 24px + env(safe-area-inset-bottom));
 }
 
 h1 {
   font-size: 28px;
-  margin: 0 0 8px;
+  margin: 8px 0 16px;
 }
 
-p {
+.hinweis {
   color: var(--text-leise);
-  margin: 0 0 32px;
+  text-align: center;
+  margin: 24px 0;
 }
 
-/* Eine Karte: weißer (bzw. dunkler) Kasten mit runden Ecken */
+/* --- Monatswechsel --- */
+.monatswahl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.pfeil {
+  width: 44px;              /* 44 px: die Mindestgröße, die Apple für Tipp-Flächen empfiehlt */
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: var(--flaeche);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* --- Karten --- */
 .karte {
   background: var(--flaeche);
   border-radius: 16px;
-  padding: 20px 24px;
-  width: 100%;
-  max-width: 360px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;             /* erlaubt der Karte, schmaler zu werden als ihr Inhalt */
+}
+
+.karte-gross {
+  padding: 20px;
+  margin-bottom: 12px;
 }
 
 .karte-titel {
@@ -94,9 +117,61 @@ p {
 }
 
 .karte-betrag {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--akzent);
   /* Ziffern gleich breit, damit Beträge sauber untereinander stehen */
   font-variant-numeric: tabular-nums;
+}
+
+/* Drei Kacheln nebeneinander */
+.kacheln {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.kachel-betrag {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;  /* sehr große Beträge brechen um statt überzustehen */
+}
+
+.plus  { color: var(--plus); }
+.minus { color: var(--minus); }
+
+/* --- Leiste unten --- */
+.leiste {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: var(--flaeche);
+  border-top: 1px solid var(--linie);
+  padding-bottom: env(safe-area-inset-bottom);  /* Platz für den Home-Balken am iPhone */
+}
+
+.leiste a {
+  flex: 1;
+  height: var(--leiste-hoehe);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--text-leise);
+  text-decoration: none;
+}
+
+.leiste svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;       /* Symbol bekommt dieselbe Farbe wie die Schrift */
+}
+
+.leiste a.aktiv {
+  color: var(--akzent);
 }
