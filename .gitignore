@@ -1,0 +1,20 @@
+# Diese Datei sagt Git, welche Dateien es NICHT speichern und NICHT hochladen soll.
+# Wichtig, weil das Repository öffentlich ist!
+
+# Backups und Exporte mit echten Finanzdaten – niemals hochladen
+*.json
+# ... aber das App-Manifest ist keine Finanzdatei und muss mit hoch
+!manifest.json
+
+# CSV-Dateien (z. B. Kontoauszüge für einen späteren Import)
+*.csv
+
+# Systemdateien von Windows und Mac
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Einstellungen von Editoren und Claude
+.vscode/
+.idea/
+.claude/

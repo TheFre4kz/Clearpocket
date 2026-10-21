@@ -1,0 +1,102 @@
+/* ==========================================================
+   Clearpocket – Aussehen der App
+   ========================================================== */
+
+/* --- Farben ---
+   Alle Farben stehen hier an einer Stelle. So können wir sie später leicht ändern.
+   "--name" ist eine Variable: einmal festgelegt, überall benutzbar. */
+:root {
+  --hintergrund: #f6f4fb;   /* sehr helles Violett-Grau */
+  --flaeche: #ffffff;       /* Karten und Kästen */
+  --text: #1d1a26;          /* fast Schwarz */
+  --text-leise: #6b6680;    /* graue Nebentexte */
+  --akzent: #7c3aed;        /* unser Violett */
+  --akzent-text: #ffffff;   /* Schrift auf Violett */
+}
+
+/* Wenn das iPhone auf "Dunkel" steht, gelten diese Farben */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hintergrund: #16131f;
+    --flaeche: #221e2e;
+    --text: #f1eef8;
+    --text-leise: #a49fb8;
+    --akzent: #a78bfa;      /* helleres Violett, gut lesbar auf Dunkel */
+    --akzent-text: #16131f;
+  }
+}
+
+/* --- Grundeinstellungen --- */
+* {
+  box-sizing: border-box;   /* Breiten inklusive Innenabstand rechnen – macht Layouts einfacher */
+}
+
+body {
+  margin: 0;
+  background: var(--hintergrund);
+  color: var(--text);
+  /* Die Systemschrift des iPhones (San Francisco), auf Windows Segoe UI */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+/* --- Startseite --- */
+.start {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Abstand zum Rand, inklusive Platz für Notch und Home-Balken am iPhone */
+  padding: calc(24px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+}
+
+.logo {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--akzent);
+  color: var(--akzent-text);
+  font-size: 44px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+p {
+  color: var(--text-leise);
+  margin: 0 0 32px;
+}
+
+/* Eine Karte: weißer (bzw. dunkler) Kasten mit runden Ecken */
+.karte {
+  background: var(--flaeche);
+  border-radius: 16px;
+  padding: 20px 24px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.karte-titel {
+  font-size: 14px;
+  color: var(--text-leise);
+}
+
+.karte-betrag {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--akzent);
+  /* Ziffern gleich breit, damit Beträge sauber untereinander stehen */
+  font-variant-numeric: tabular-nums;
+}

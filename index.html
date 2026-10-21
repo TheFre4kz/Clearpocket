@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <!-- Zeichensatz: damit Umlaute (ä, ö, ü) und das €-Zeichen richtig angezeigt werden -->
+  <meta charset="UTF-8">
+
+  <!-- Sorgt dafür, dass die Seite auf dem Handy in richtiger Größe erscheint
+       und auch unter die "Notch" (die Aussparung oben am iPhone) reicht -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Name im Browser-Tab -->
+  <title>Clearpocket</title>
+
+  <!-- Einstellungen für das iPhone, wenn die App auf dem Home-Bildschirm liegt -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Clearpocket">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Farbe der Statusleiste: hell oder dunkel, passend zur iPhone-Einstellung -->
+  <meta name="theme-color" content="#f6f4fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#16131f" media="(prefers-color-scheme: dark)">
+
+  <!-- Unser Aussehen (Farben, Schriften, Abstände) -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="start">
+    <!-- Ein einfaches Logo: ein violetter Kreis mit dem Buchstaben C -->
+    <div class="logo" aria-hidden="true">C</div>
+
+    <h1>Hallo, Clearpocket!</h1>
+    <p>Hier entsteht deine persönliche Finanz-App.</p>
+
+    <!-- Kleine Karte, die schon mal zeigt, wie Beträge später aussehen -->
+    <div class="karte">
+      <span class="karte-titel">Beispiel-Betrag</span>
+      <span class="karte-betrag" id="beispiel-betrag"></span>
+    </div>
+  </main>
+
+  <script>
+    // Ein erster kleiner Test mit JavaScript:
+    // Wir speichern Beträge in Cent (als ganze Zahl), hier 123456 Cent = 1.234,56 €
+    const betragCent = 123456;
+
+    // Diese Funktion verwandelt Cent in einen schön formatierten Euro-Betrag
+    function alsEuro(cent) {
+      return (cent / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+    }
+
+    // Den formatierten Betrag in die Karte schreiben
+    document.getElementById('beispiel-betrag').textContent = alsEuro(betragCent);
+  </script>
+</body>
+</html>
