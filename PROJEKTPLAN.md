@@ -261,7 +261,11 @@ So können wir jederzeit weitermachen, auch in einer neuen Sitzung.
 - Etappe 2: **Sankey-Diagramm „Geldfluss"** aufgenommen.
 - Etappe 3: ausgebaut zu **Vermögensübersicht & Geldanlage** – Anlagen/Assets erfassen, Sparen-Buchungen einer Anlage zuordnen, Gewinn/Verlust, Aufteilung nach Anlageklasse, optional Sparpläne.
 
-**Teilschritte Etappe 1:** 1) Grundgerüst · 2) Buchungen · 3) Fixkosten · 4) Backup · 5) PWA (Icon, offline)
+**Teilschritte Etappe 1:** 1) Grundgerüst · 2) Buchungen · 3) Fixkosten · 4) Backup · 5) PWA (Icon, Manifest)
+
+**Updates aufs iPhone (seit Version 0.3.0):** Der Service Worker (`service-worker.js`) wurde aus Schritt 5 vorgezogen. Er lädt bei jedem Start zuerst die neueste Version von GitHub („Netz zuerst“) und nutzt ohne Internet die gespeicherte Kopie. War die App länger als 5 Minuten im Hintergrund, lädt sie sich beim Zurückkehren neu.
+- **Regel:** Bei jeder neuen Version `APP_VERSION` in `js/app.js` hochzählen. Die Nummer steht in der App unter *Einstellungen*.
+- Neue Dateien, die offline verfügbar sein sollen, in `APP_DATEIEN` in `service-worker.js` eintragen.
 
 ### Stand
 - [x] Rückfragen aus Abschnitt 4 beantwortet

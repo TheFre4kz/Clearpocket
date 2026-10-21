@@ -2,6 +2,10 @@
    app.js – Start der App, Anzeige und Bedienung
    ========================================================== */
 
+// Versionsnummer der App. Bei jeder neuen Version hochzählen –
+// in den Einstellungen siehst du dann, ob das iPhone die neueste hat.
+const APP_VERSION = '0.3.0';
+
 // --- Daten laden ---
 let daten;
 try {
@@ -345,5 +349,29 @@ for (const knopf of document.querySelectorAll('input[name="typ"]')) {
 }
 window.addEventListener('hashchange', zeigeBereich);
 
+// ==========================================================
+// Updates: immer die neueste Version laden
+// ==========================================================
+
+// Den Service Worker anmelden (Datei service-worker.js, erklärt dort)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+// Das iPhone lässt Home-Bildschirm-Apps oft im Hintergrund "schlafen"
+// und weckt sie später einfach wieder auf – ohne neu zu laden.
+// Darum: War die App länger als 5 Minuten weg, laden wir sie neu
+// und holen so eine eventuell neue Version. Deine Daten bleiben dabei erhalten.
+const NEU_LADEN_NACH_MS = 5 * 60 * 1000;
+let verstecktSeit = null;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    verstecktSeit = Date.now();
+  } else if (verstecktSeit && Date.now() - verstecktSeit > NEU_LADEN_NACH_MS && !el('buchung-dialog').open) {
+    location.reload();   // nicht, wenn gerade das Formular offen ist
+  }
+});
+
+el('app-version').textContent = APP_VERSION;
 fuelleFilter();
 zeigeBereich();

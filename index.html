@@ -90,10 +90,15 @@
   <section id="bereich-einstellungen" class="bereich" hidden>
     <h1>Einstellungen</h1>
     <p class="hinweis">Hier kommen bald Backup, Kategorien und mehr hin. (Kommt in Schritt 4)</p>
+    <p class="hinweis">Clearpocket Version <span id="app-version"></span></p>
   </section>
 
   <!-- ===== Der runde "+"-Knopf für eine neue Buchung ===== -->
-  <button type="button" id="plus-knopf" class="plus-knopf" aria-label="Neue Buchung">+</button>
+  <!-- Das Plus ist eine kleine Zeichnung (SVG) statt eines Buchstabens –
+       so sitzt es auf jedem Gerät genau in der Mitte -->
+  <button type="button" id="plus-knopf" class="plus-knopf" aria-label="Neue Buchung">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
+  </button>
 
   <!-- ===== Formular für eine Buchung (neu oder bearbeiten) =====
        <dialog> ist ein Fenster, das sich über die Seite legt. -->
